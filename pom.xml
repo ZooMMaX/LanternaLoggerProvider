@@ -6,7 +6,7 @@
 
     <groupId>ru.zoommax</groupId>
     <artifactId>LanternaLoggerProvider</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 
     <name>Lanterna Logger Provider</name>
     <url>https://github.com/ZooMMaX/LanternaLoggerProvider</url>
