@@ -5,6 +5,8 @@
 ![GitHub](https://img.shields.io/github/license/ZooMMaX/LanternaLoggerProvider?style=plastic)
 [![GitHub issues](https://img.shields.io/github/issues/ZooMMaX/bitcoin-rpc-client?style=plastic)](https://github.com/ZooMMaX/LanternaLoggerProvider/issues)
 
+Display logs to window. You can control the display of logs by setting the `LanternaLoggerSettings` class. You can also control whether logs are saved to a file.
+
 
 ![screenshot](https://github.com/ZooMMaX/LanternaLoggerProvider/blob/26caac5dd6127f28705a623aa7956ac53543ffa9/screen02.jpg?raw=true)
 
@@ -139,3 +141,12 @@ public class Main {
     }
 }
 ```
+
+## Roadmap
+
+- [x] Logger window
+- [x] Save logs to file
+- [x] Change log levels
+- [x] Add settings
+- [ ] Set color for log levels
+- [ ] Make the window resizable
