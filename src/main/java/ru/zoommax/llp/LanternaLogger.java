@@ -100,26 +100,26 @@ public class LanternaLogger extends LegacyAbstractLogger {
 
     @Override
     public boolean isTraceEnabled() {
-        return true;
+        return LanternaLoggerSettings.SETTINGS_TRACE;
     }
 
     @Override
     public boolean isDebugEnabled() {
-        return true;
+        return LanternaLoggerSettings.SETTINGS_DEBUG;
     }
 
     @Override
     public boolean isInfoEnabled() {
-        return true;
+        return LanternaLoggerSettings.SETTINGS_INFO;
     }
 
     @Override
     public boolean isWarnEnabled() {
-        return true;
+        return LanternaLoggerSettings.SETTINGS_WARN;
     }
 
     @Override
     public boolean isErrorEnabled() {
-        return true;
+        return LanternaLoggerSettings.SETTINGS_ERROR;
     }
 }

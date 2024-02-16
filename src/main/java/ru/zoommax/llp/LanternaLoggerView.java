@@ -1,7 +1,5 @@
 package ru.zoommax.llp;
 
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Label;
@@ -25,7 +23,6 @@ import java.util.concurrent.Executors;
 * The class has methods for displaying logs of different levels: error, info, warn, debug, trace.
 */
 public class LanternaLoggerView extends BasicWindow {
-
     private static LanternaLoggerView instance = null;
 
 
@@ -35,9 +32,7 @@ public class LanternaLoggerView extends BasicWindow {
     private static int startY = -1;
     private static int stopX = -1;
     private static int stopY = -1;
-
-    private Terminal terminal = null;
-    ExecutorService service;
+    ExecutorService guiService, fileService;
 
     Panel panel = new Panel();
     List<Label> labels = new ArrayList<>();
@@ -60,24 +55,10 @@ public class LanternaLoggerView extends BasicWindow {
     public static LanternaLoggerView getInstance() {
         if (instance == null) {
             instance = new LanternaLoggerView();
-            instance.service = Executors.newFixedThreadPool(1);
-        }
-        return instance;
-    }
+            instance.guiService = Executors.newFixedThreadPool(1);
+            instance.fileService = Executors.newFixedThreadPool(1);
 
-    /**
-     * The method is used to get the instance of the class.
-     * If the instance does not exist, it is created.
-     * @param terminal the terminal to be used for displaying logs
-     * @return the instance of the class
-     * @throws IOException if an I/O error occurs
-     */
-    public static LanternaLoggerView getInstance(Terminal terminal) throws IOException {
-        if (instance == null) {
-            instance = new LanternaLoggerView();
-            instance.service = Executors.newFixedThreadPool(1);
         }
-        instance.terminal = terminal;
         return instance;
     }
 
@@ -103,17 +84,20 @@ public class LanternaLoggerView extends BasicWindow {
      * @param message the message to be displayed
      */
     public void error(String message) {
-        try {
-            FileOutputStream fot = new FileOutputStream("logError.txt", true);
-            fot.write((formatter.format(new Date()) + " Error: " + message + "\n").getBytes());
-            fot.close();
-            drawSettings();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+        Runnable saveToFile = () -> {
+            try {
+                FileOutputStream fot = new FileOutputStream("logError.txt", true);
+                fot.write((formatter.format(new Date()) + " Error: " + message + "\n").getBytes());
+                fot.close();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+
         final String msg = formatter.format(new Date()) + " Error: " + message;
         Runnable runnable = () -> {
             try {
+                drawSettings();
                 int lineCount = stopY - startY;
                 int lineLength = stopX - startX;
 
@@ -141,22 +125,27 @@ public class LanternaLoggerView extends BasicWindow {
                 throw new RuntimeException(e);
             }
         };
-        service.submit(runnable);
+        guiService.submit(runnable);
+        if (LanternaLoggerSettings.SETTINGS_SAVE_LOG_ERROR)
+            fileService.submit(saveToFile);
     }
 
 
     public void info(String message) {
-        try {
-            FileOutputStream fot = new FileOutputStream("logInfo.txt", true);
-            fot.write((formatter.format(new Date()) + " Info: " + message + "\n").getBytes());
-            fot.close();
-            drawSettings();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+        Runnable saveToFile = () -> {
+            try {
+                FileOutputStream fot = new FileOutputStream("logInfo.txt", true);
+                fot.write((formatter.format(new Date()) + " Info: " + message + "\n").getBytes());
+                fot.close();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+
         final String msg = formatter.format(new Date()) + " Info: " + message;
         Runnable runnable = () -> {
             try {
+                drawSettings();
                 int lineCount = stopY - startY;
                 int lineLength = stopX - startX;
 
@@ -183,22 +172,29 @@ public class LanternaLoggerView extends BasicWindow {
                 throw new RuntimeException(e);
             }
         };
-        service.submit(runnable);
+        guiService.submit(runnable);
+        if (LanternaLoggerSettings.SETTINGS_SAVE_LOG_INFO)
+            fileService.submit(saveToFile);
+
     }
 
 
     public void warn(String message) {
-        try {
-            FileOutputStream fot = new FileOutputStream("logWarn.txt", true);
-            fot.write((formatter.format(new Date()) + " Warn: " + message + "\n").getBytes());
-            fot.close();
-            drawSettings();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+        Runnable saveToFile = () -> {
+            try {
+                FileOutputStream fot = new FileOutputStream("logWarn.txt", true);
+                fot.write((formatter.format(new Date()) + " Warn: " + message + "\n").getBytes());
+                fot.close();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+
+
         final String msg = formatter.format(new Date()) + " Warn: " + message;
         Runnable runnable = () -> {
             try {
+                drawSettings();
                 int lineCount = stopY - startY;
                 int lineLength = stopX - startX;
 
@@ -225,22 +221,28 @@ public class LanternaLoggerView extends BasicWindow {
                 throw new RuntimeException(e);
             }
         };
-        service.submit(runnable);
+        guiService.submit(runnable);
+        if (LanternaLoggerSettings.SETTINGS_SAVE_LOG_WARN)
+            fileService.submit(saveToFile);
     }
 
 
     public void debug(String message) {
-        try {
-            FileOutputStream fot = new FileOutputStream("logDebug.txt", true);
-            fot.write((formatter.format(new Date()) + " Debug: " + message + "\n").getBytes());
-            fot.close();
-            drawSettings();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+        Runnable saveToFile = () -> {
+            try {
+                FileOutputStream fot = new FileOutputStream("logDebug.txt", true);
+                fot.write((formatter.format(new Date()) + " Debug: " + message + "\n").getBytes());
+                fot.close();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+
+
         final String msg = formatter.format(new Date()) + " Debug: " + message;
         Runnable runnable = () -> {
             try {
+                drawSettings();
                 int lineCount = stopY - startY;
                 int lineLength = stopX - startX;
 
@@ -267,22 +269,27 @@ public class LanternaLoggerView extends BasicWindow {
                 throw new RuntimeException(e);
             }
         };
-        service.submit(runnable);
+        guiService.submit(runnable);
+        if (LanternaLoggerSettings.SETTINGS_SAVE_LOG_DEBUG)
+            fileService.submit(saveToFile);
     }
 
 
     public void trace(String message) {
-        try {
-            FileOutputStream fot = new FileOutputStream("logTrace.txt", true);
-            fot.write((formatter.format(new Date()) + " Trace: " + message + "\n").getBytes());
-            fot.close();
-            drawSettings();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+        Runnable saveToFile = () -> {
+            try {
+                FileOutputStream fot = new FileOutputStream("logTrace.txt", true);
+                fot.write((formatter.format(new Date()) + " Trace: " + message + "\n").getBytes());
+                fot.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+
         final String msg = formatter.format(new Date()) + " Trace: " + message;
         Runnable runnable = () -> {
             try {
+                drawSettings();
                 int lineCount = stopY - startY;
                 int lineLength = stopX - startX;
 
@@ -309,7 +316,9 @@ public class LanternaLoggerView extends BasicWindow {
                 throw new RuntimeException(e);
             }
         };
-        service.submit(runnable);
+        guiService.submit(runnable);
+        if (LanternaLoggerSettings.SETTINGS_SAVE_LOG_TRACE)
+            fileService.submit(saveToFile);
     }
 
 
