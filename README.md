@@ -6,7 +6,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/ZooMMaX/bitcoin-rpc-client?style=plastic)](https://github.com/ZooMMaX/LanternaLoggerProvider/issues)
 
 
-![screenshot](https://github.com/ZooMMaX/LanternaLoggerProvider/blob/master/screen02.jpg?raw=true)
+![screenshot](https://github.com/ZooMMaX/LanternaLoggerProvider/blob/26caac5dd6127f28705a623aa7956ac53543ffa9/screen02.jpg?raw=true)
 
 
 
