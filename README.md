@@ -6,6 +6,9 @@
 [![GitHub issues](https://img.shields.io/github/issues/ZooMMaX/bitcoin-rpc-client?style=plastic)](https://github.com/ZooMMaX/LanternaLoggerProvider/issues)
 
 
+![screenshot](https://github.com/ZooMMaX/LanternaLoggerProvider/blob/master/screen02.jpg?raw=true)
+
+
 
 ## Dependency
 
