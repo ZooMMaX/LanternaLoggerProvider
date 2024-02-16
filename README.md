@@ -15,14 +15,14 @@
     <dependency>
         <groupId>ru.zoommax</groupId>
         <artifactId>LanternaLoggerProvider</artifactId>
-        <version>1.0</version>
+        <version>1.1</version>
     </dependency>
 </dependencies>
 ```
 
 ![dependency gradle](https://img.shields.io/badge/DEPENDENCY-Gradle-02303A?style=plastic&logo=gradle)
 ```groovy
-iimplementation 'ru.zoommax:LanternaLoggerProvider:1.0'
+iimplementation 'ru.zoommax:LanternaLoggerProvider:1.1'
 ```
 
 ### How to use
