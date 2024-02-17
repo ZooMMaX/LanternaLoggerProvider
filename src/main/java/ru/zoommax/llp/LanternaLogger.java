@@ -62,6 +62,17 @@ public class LanternaLogger extends LegacyAbstractLogger {
         // Append the message
         buf.append(formattedMessage);
 
+        if (t != null) {
+            buf.append("\nMessage: ");
+            buf.append(t.getMessage());
+            buf.append("\nThrowable: ");
+            StackTraceElement[] stackTrace = t.getStackTrace();
+            for (StackTraceElement stackTraceElement : stackTrace) {
+                buf.append("\n");
+                buf.append(stackTraceElement);
+            }
+        }
+
         LanternaLoggerView loggerView = LanternaLoggerView.getInstance();
 
         switch(level){
